@@ -1,5 +1,7 @@
 # TinyTrack 🔗
 
+“This project is a part of a hackathon run by https://katomaran.com ”
+
 > A full-stack URL shortening platform with click analytics, user authentication, and performance insights.
 
 ![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
