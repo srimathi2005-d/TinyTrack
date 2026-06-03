@@ -2,11 +2,10 @@
 node_modules/
 */node_modules/
 
-# Environment variables
+# Environment variables — only ignore actual secrets, not examples
 .env
 .env.local
 .env.production
-.env.example
 
 # Build output
 dist/

@@ -38,7 +38,15 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('shorten')
   const [showProfileMenu, setShowProfileMenu] = useState(false)
   const [showFeaturesMenu, setShowFeaturesMenu] = useState(false)
+  const [showDomainsMenu, setShowDomainsMenu] = useState(false)
+  const [showResourcesMenu, setShowResourcesMenu] = useState(false)
   const limit = 6
+
+  const closeAllMenus = () => {
+    setShowFeaturesMenu(false)
+    setShowDomainsMenu(false)
+    setShowResourcesMenu(false)
+  }
 
   const fetchUrls = async () => {
     setLoading(true)
@@ -112,7 +120,7 @@ const Dashboard = () => {
       {/* Top Navbar Header */}
       <header 
         style={s.header}
-        onMouseLeave={() => setShowFeaturesMenu(false)}
+        onMouseLeave={closeAllMenus}
       >
         <div style={s.headerInner}>
           <Link to="/dashboard" style={s.logoLink}>
@@ -125,12 +133,22 @@ const Dashboard = () => {
           <nav style={s.navGroup}>
             <span 
               style={{ ...s.navItem, ...(showFeaturesMenu ? s.navItemActive : {}) }}
-              onMouseEnter={() => setShowFeaturesMenu(true)}
+              onMouseEnter={() => { closeAllMenus(); setShowFeaturesMenu(true) }}
             >
               Features
             </span>
-            <span style={s.navItem}>Domains</span>
-            <span style={s.navItem}>Resources</span>
+            <span
+              style={{ ...s.navItem, ...(showDomainsMenu ? s.navItemActive : {}) }}
+              onMouseEnter={() => { closeAllMenus(); setShowDomainsMenu(true) }}
+            >
+              Domains
+            </span>
+            <span
+              style={{ ...s.navItem, ...(showResourcesMenu ? s.navItemActive : {}) }}
+              onMouseEnter={() => { closeAllMenus(); setShowResourcesMenu(true) }}
+            >
+              Resources
+            </span>
           </nav>
 
           <div style={s.headerActions}>
@@ -170,7 +188,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Mega Menu Dropdown */}
+        {/* Features Mega Menu Dropdown */}
         {showFeaturesMenu && (
           <div style={s.megaMenu}>
             <div style={s.megaMenuInner}>
@@ -201,6 +219,73 @@ const Dashboard = () => {
                 <div style={s.megaItem}>
                   <h4 style={s.megaItemTitle}>&lt;/&gt; Short URL API</h4>
                   <p style={s.megaItemDesc}>Build powerful apps and automations with our link shortening API</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Domains Mega Menu */}
+        {showDomainsMenu && (
+          <div style={s.megaMenu}>
+            <div style={s.domainsMegaInner}>
+              <div style={s.domainsLeft}>
+                <h2 style={s.domainsBigTitle}>Custom Domains:</h2>
+                <h2 style={{ ...s.domainsBigTitle, fontStyle: 'italic', color: 'var(--primary-light)' }}>Your Links, Your Branding</h2>
+                <p style={s.domainsDesc}>
+                  Branded domains are used exclusively to create short, appealing, and informative links that put your branding or core message front-and-center.
+                </p>
+                <p style={{ ...s.domainsDesc, marginTop: '0.75rem' }}>
+                  TinyTrack subscribers can purchase domains directly through our platform. Try it now!
+                </p>
+                <button style={s.domainsBtn}>Get Started</button>
+              </div>
+              <div style={s.domainsRight}>
+                <div style={s.domainSearchBox}>
+                  <span style={s.domainSearchLabel}>🔍 Search for a domain</span>
+                  <div style={s.domainSearchRow}>
+                    <input
+                      type="text"
+                      placeholder="yourbrand.com"
+                      readOnly
+                      style={s.domainSearchInput}
+                    />
+                    <button style={s.domainSearchBtn}>Search</button>
+                  </div>
+                  <div style={s.domainExtensions}>
+                    {['.com', '.net', '.org', '.io', '.dev', '.app'].map(ext => (
+                      <span key={ext} style={s.domainExtBadge}>{ext}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Resources Mega Menu */}
+        {showResourcesMenu && (
+          <div style={s.megaMenu}>
+            <div style={s.megaMenuInner}>
+              <div style={s.megaLeftCol}>
+                <h2 style={s.megaTitle}>Resources</h2>
+              </div>
+              <div style={s.megaGrid}>
+                <div style={s.megaItem}>
+                  <h4 style={s.megaItemTitle}>📝 Blog</h4>
+                  <p style={s.megaItemDesc}>Read the latest tips and tricks from the top experts in link shortening</p>
+                </div>
+                <div style={s.megaItem}>
+                  <h4 style={s.megaItemTitle}>💻 For Developers</h4>
+                  <p style={s.megaItemDesc}>Power your apps and software with automated, fully custom URL shortening</p>
+                </div>
+                <div style={s.megaItem}>
+                  <h4 style={s.megaItemTitle}>✅ Our Proven Process</h4>
+                  <p style={s.megaItemDesc}>Learn how our customers go from zero to hero with our link management tools</p>
+                </div>
+                <div style={s.megaItem}>
+                  <h4 style={s.megaItemTitle}>🏢 About Us</h4>
+                  <p style={s.megaItemDesc}>Learn about TinyTrack's journey as the first link shortener</p>
                 </div>
               </div>
             </div>
@@ -550,11 +635,11 @@ const s = {
     borderBottom: '1px solid var(--border-default)',
     boxShadow: 'var(--shadow-lg)',
     zIndex: 999,
-    padding: '2.5rem 1.5rem',
+    padding: '2.5rem 2rem',
     animation: 'slideDown 0.25s var(--ease-smooth)',
   },
   megaMenuInner: {
-    maxWidth: '1200px',
+    maxWidth: '1440px',
     margin: '0 auto',
     display: 'flex',
     gap: '4rem',
@@ -598,6 +683,121 @@ const s = {
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem',
+  },
+
+  // Domains Mega Menu
+  domainsMegaInner: {
+    maxWidth: '1440px',
+    margin: '0 auto',
+    display: 'flex',
+    gap: '4rem',
+    alignItems: 'center',
+    width: '100%',
+    minHeight: '200px',
+  },
+  domainsLeft: {
+    flex: '1 1 420px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.75rem',
+    textAlign: 'left',
+  },
+  domainsBigTitle: {
+    fontSize: '2rem',
+    fontWeight: 900,
+    lineHeight: 1.15,
+    letterSpacing: '-0.03em',
+    color: 'var(--text-primary)',
+    margin: 0,
+  },
+  domainsDesc: {
+    fontSize: '0.9rem',
+    lineHeight: 1.6,
+    color: 'var(--text-secondary)',
+    maxWidth: '420px',
+    margin: 0,
+  },
+  domainsBtn: {
+    marginTop: '0.75rem',
+    display: 'inline-block',
+    width: 'fit-content',
+    background: 'var(--primary)',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '8px',
+    padding: '0.7rem 1.75rem',
+    fontWeight: 700,
+    fontSize: '0.95rem',
+    cursor: 'pointer',
+    boxShadow: 'var(--shadow-primary)',
+    transition: 'all var(--transition-fast)',
+    fontFamily: 'inherit',
+  },
+  domainsRight: {
+    flex: '1 1 380px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  domainSearchBox: {
+    background: 'var(--bg-card)',
+    border: '1.5px solid var(--border-default)',
+    borderRadius: '16px',
+    padding: '1.75rem',
+    width: '100%',
+    maxWidth: '420px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+    boxShadow: 'var(--shadow-xl)',
+  },
+  domainSearchLabel: {
+    fontSize: '0.85rem',
+    fontWeight: 700,
+    color: 'var(--text-secondary)',
+  },
+  domainSearchRow: {
+    display: 'flex',
+    gap: '0.5rem',
+  },
+  domainSearchInput: {
+    flex: 1,
+    padding: '0.65rem 1rem',
+    background: 'var(--bg-input)',
+    border: '1.5px solid var(--border-default)',
+    borderRadius: '8px',
+    color: 'var(--text-primary)',
+    fontSize: '0.9rem',
+    fontFamily: 'inherit',
+    outline: 'none',
+    cursor: 'default',
+  },
+  domainSearchBtn: {
+    padding: '0.65rem 1.25rem',
+    background: 'var(--primary)',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '8px',
+    fontWeight: 700,
+    fontSize: '0.88rem',
+    cursor: 'pointer',
+    whiteSpace: 'nowrap',
+    fontFamily: 'inherit',
+  },
+  domainExtensions: {
+    display: 'flex',
+    gap: '0.5rem',
+    flexWrap: 'wrap',
+  },
+  domainExtBadge: {
+    padding: '0.3rem 0.75rem',
+    background: 'rgba(99, 102, 241, 0.1)',
+    border: '1px solid rgba(99, 102, 241, 0.25)',
+    borderRadius: '6px',
+    color: 'var(--primary-light)',
+    fontSize: '0.82rem',
+    fontWeight: 700,
+    cursor: 'pointer',
   },
   navIconBtn: {
     padding: '0.5rem',
