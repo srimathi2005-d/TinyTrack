@@ -92,4 +92,44 @@ const getMe = async (req, res) => {
   });
 };
 
-module.exports = { signup, login, getMe };
+// @desc   Google OAuth authentication
+// @route  POST /api/auth/google
+// @access Public
+const googleAuth = async (req, res) => {
+  const { name, email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+
+  try {
+    // Check if user exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create new user with Google auth (no password)
+      user = await User.create({
+        name: name || email.split('@')[0],
+        email,
+        password: Math.random().toString(36).substring(7), // Random password for OAuth users
+      });
+    }
+
+    res.status(200).json({
+      token: generateToken(user._id),
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map((e) => e.message);
+      return res.status(400).json({ message: messages.join(', ') });
+    }
+    res.status(500).json({ message: 'Server error during Google authentication' });
+  }
+};
+
+module.exports = { signup, login, getMe, googleAuth };
