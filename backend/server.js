@@ -14,10 +14,11 @@ const app = express();
 // Middleware
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:3000',
+    'https://frontend-two-taupe-33.vercel.app', // production Vercel URL
+    process.env.FRONTEND_URL,                    // override via env on Render
     'http://localhost:3000',
     'http://localhost:5173',
-  ],
+  ].filter(Boolean),
   credentials: true,
 }));
 app.use(express.json());
