@@ -9,7 +9,7 @@ import Footer from '../components/Footer'
 import { 
   AlertCircle, BarChart3, Calendar, Check, Copy, ExternalLink, 
   Link2, Plus, QrCode, Search, Trash2, X, Sun, Moon, Bell, HelpCircle, 
-  ChevronDown, LogOut 
+  ChevronDown, LogOut, Info
 } from 'lucide-react'
 
 const Dashboard = () => {
