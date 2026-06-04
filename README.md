@@ -238,8 +238,7 @@ npm start
 
 ## 📽️ Demo
 
-> 🎥 Demo video is ready — link coming soon.
-
+https://drive.google.com/file/d/1Bv3xc-Z2DEhfjuzjkLVxmqYMiDlQTuTM/view?usp=drive_link
 ---
 
 ## 📄 License
