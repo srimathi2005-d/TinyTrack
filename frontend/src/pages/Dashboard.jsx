@@ -161,7 +161,7 @@ const Dashboard = () => {
             {/* User Profile Menu */}
             <div style={s.profileWrapper}>
               <button onClick={() => setShowProfileMenu(!showProfileMenu)} style={s.profileBtn}>
-                <div style={s.avatar}>{user?.name?.charAt(0).toUpperCase() || 'S'}</div>
+                <div style={s.avatar}>{(user?.name?.charAt(0) || 'S').toUpperCase()}</div>
                 <span style={s.profileName}>{user?.name || 'Srimathi'}</span>
                 <ChevronDown size={14} style={s.chevron} />
               </button>
@@ -169,7 +169,7 @@ const Dashboard = () => {
                 <div style={s.dropdownCard}>
                   <button onClick={() => setShowProfileMenu(false)} style={s.dropCloseBtn}>×</button>
                   <div style={s.dropHeaderRow}>
-                    <div style={s.dropAvatar}>{user?.name?.charAt(0).toUpperCase() || 'S'}</div>
+                    <div style={s.dropAvatar}>{(user?.name?.charAt(0) || 'S').toUpperCase()}</div>
                     <div style={s.dropDetails}>
                       <h4 style={s.dropName}>{user?.name || 'Srimathi'}</h4>
                       <p style={s.dropEmail}>{user?.email || 'srimathidurairaj05@gmail.com'}</p>
@@ -472,7 +472,7 @@ const Dashboard = () => {
                       </div>
                       <div style={s.urlDate}>
                         <Calendar size={12} />
-                        <span>{new Date(url.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+                        <span>{url.createdAt ? new Date(url.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : 'N/A'}</span>
                       </div>
                     </div>
                   </div>
